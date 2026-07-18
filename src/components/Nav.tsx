@@ -6,10 +6,9 @@ interface Props {
 }
 
 const LINKS: { label: string; page: Page }[] = [
-  { label: 'Work', page: { name: 'work' } },
-  { label: 'Pricing', page: { name: 'pricing' } },
+  { label: 'Gallery', page: { name: 'gallery' } },
   { label: 'About', page: { name: 'about' } },
-  { label: 'Contact', page: { name: 'contact' } },
+  { label: 'Commission', page: { name: 'commission' } },
 ]
 
 export default function Nav({ page, navigate }: Props) {
@@ -85,34 +84,6 @@ export default function Nav({ page, navigate }: Props) {
             </button>
           )
         })}
-        <button
-          onClick={() => navigate({ name: 'contact' })}
-          style={{
-            background: 'none',
-            border: '1px solid #3d3630',
-            cursor: 'pointer',
-            padding: '9px 18px',
-            fontFamily: "'Epilogue', sans-serif",
-            fontWeight: 300,
-            fontSize: '0.72rem',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: '#e4dbd0',
-            transition: 'border-color 0.2s, background 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget
-            el.style.borderColor = '#9c7a50'
-            el.style.background = 'rgba(156,122,80,0.1)'
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget
-            el.style.borderColor = '#3d3630'
-            el.style.background = 'none'
-          }}
-        >
-          Get a quote
-        </button>
       </nav>
     </header>
   )

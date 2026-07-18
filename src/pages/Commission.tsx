@@ -1,27 +1,27 @@
 import { useState } from 'react'
 
-const TAKING_PROJECTS = true
+const COMMISSIONS_OPEN = true
 const QUEUE_POSITION: number = 2
 
 interface FormState {
   name: string
   email: string
-  projectType: string
+  subject: string
+  size: string
   budget: string
-  timeline: string
   message: string
 }
 
 const INITIAL: FormState = {
   name: '',
   email: '',
-  projectType: '',
+  subject: '',
+  size: '',
   budget: '',
-  timeline: '',
   message: '',
 }
 
-export default function Contact() {
+export default function Commission() {
   const [form, setForm] = useState<FormState>(INITIAL)
   const [sent, setSent] = useState(false)
 
@@ -63,7 +63,7 @@ export default function Contact() {
     <div>
       {/* header */}
       <div
-        className="commissions-header"
+        className="commission-header"
         style={{
           padding: '48px 28px 40px',
           borderBottom: '1px solid #2e2920',
@@ -80,7 +80,7 @@ export default function Contact() {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                backgroundColor: TAKING_PROJECTS ? '#6d7d63' : '#a8838e',
+                backgroundColor: COMMISSIONS_OPEN ? '#6d7d63' : '#a8838e',
                 display: 'inline-block',
                 flexShrink: 0,
               }}
@@ -92,10 +92,10 @@ export default function Contact() {
                 fontSize: '0.7rem',
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: TAKING_PROJECTS ? '#6d7d63' : '#a8838e',
+                color: COMMISSIONS_OPEN ? '#6d7d63' : '#a8838e',
               }}
             >
-              {TAKING_PROJECTS ? 'Taking on new projects' : 'Currently booked'}
+              {COMMISSIONS_OPEN ? 'Commissions open' : 'Commissions closed'}
             </span>
           </div>
 
@@ -111,17 +111,16 @@ export default function Contact() {
               lineHeight: 1.1,
             }}
           >
-            Start your project
+            Commission a piece
           </h1>
 
-          {TAKING_PROJECTS && (
+          {COMMISSIONS_OPEN && (
             <p className="body-muted" style={{ fontSize: '0.82rem' }}>
               Currently{' '}
               <span style={{ color: '#9c7a50' }}>
-                {QUEUE_POSITION} {QUEUE_POSITION === 1 ? 'project' : 'projects'}
+                {QUEUE_POSITION} {QUEUE_POSITION === 1 ? 'commission' : 'commissions'}
               </span>{' '}
-              ahead of yours. Typical turnaround is 1 – 7 weeks depending on scope, see{' '}
-              <span style={{ color: '#a09080' }}>Pricing</span> for a rough idea.
+              ahead of yours.
             </p>
           )}
         </div>
@@ -139,15 +138,15 @@ export default function Contact() {
           {[
             {
               heading: 'What I take on',
-              body: 'Business sites, online stores, landing pages, and small custom web apps. If it runs in a browser, it\'s worth asking.',
+              body: '[Placeholder — list your real media/subjects here, e.g. "Acrylic on canvas, custom sizes. Portraits, landscapes, or a subject of your choice."]',
             },
             {
               heading: 'Pricing',
-              body: 'Starter projects from $750, full stores from $3,200. A 50% deposit is required to hold your project slot.',
+              body: '[Placeholder — your real pricing structure, e.g. by size or complexity. A deposit is typically required to hold your spot.]',
             },
             {
               heading: 'Process',
-              body: 'I send a proposed sitemap and design direction before building, plus progress check-ins. Final payment due on handover.',
+              body: '[Placeholder — describe your process, e.g. a sketch or reference approval before starting, progress photos, final payment on completion.]',
             },
           ].map(({ heading, body }) => (
             <div key={heading}>
@@ -168,8 +167,8 @@ export default function Contact() {
               Request received.
             </p>
             <p className="body-muted" style={{ fontSize: '0.84rem' }}>
-              I'll be in touch within a few days to talk through the project and confirm your
-              place in the queue. Thank you for reaching out.
+              I'll be in touch within a few days to discuss the piece and confirm your queue
+              position. Thank you for your interest.
             </p>
           </div>
         ) : (
@@ -205,74 +204,58 @@ export default function Contact() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-              <div>
-                <label htmlFor="projectType" style={labelStyle}>Project type</label>
-                <select
-                  id="projectType"
-                  value={form.projectType}
-                  onChange={set('projectType')}
-                  required
-                  style={{ ...inputStyle, cursor: 'pointer' }}
-                  onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
-                  onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
-                >
-                  <option value="" disabled>Select</option>
-                  <option value="business">Business / brochure site</option>
-                  <option value="ecommerce">E-commerce store</option>
-                  <option value="landing">Landing page</option>
-                  <option value="webapp">Web app / custom build</option>
-                  <option value="unsure">Not sure yet</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="timeline" style={labelStyle}>Timeline</label>
-                <select
-                  id="timeline"
-                  value={form.timeline}
-                  onChange={set('timeline')}
-                  required
-                  style={{ ...inputStyle, cursor: 'pointer' }}
-                  onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
-                  onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
-                >
-                  <option value="" disabled>Select</option>
-                  <option value="asap">As soon as possible</option>
-                  <option value="1month">Within a month</option>
-                  <option value="1-3months">1 – 3 months</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-              </div>
-            </div>
-
             <div>
-              <label htmlFor="budget" style={labelStyle}>Budget range</label>
-              <select
-                id="budget"
-                value={form.budget}
-                onChange={set('budget')}
+              <label htmlFor="subject" style={labelStyle}>Subject / what you have in mind</label>
+              <input
+                id="subject"
+                type="text"
                 required
-                style={{ ...inputStyle, cursor: 'pointer' }}
+                value={form.subject}
+                onChange={set('subject')}
+                placeholder="e.g. acrylic on canvas, custom size"
+                style={inputStyle}
                 onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
                 onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
-              >
-                <option value="" disabled>Select</option>
-                <option value="750-1200">$750 – $1,200</option>
-                <option value="1200-2500">$1,200 – $2,500</option>
-                <option value="2500-4000">$2,500 – $4,000</option>
-                <option value="4000+">$4,000+</option>
-                <option value="flexible">Flexible / let's discuss</option>
-              </select>
+              />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div>
+                <label htmlFor="size" style={labelStyle}>Approximate size</label>
+                <input
+                  id="size"
+                  type="text"
+                  value={form.size}
+                  onChange={set('size')}
+                  placeholder="e.g. 40 x 60 cm"
+                  style={inputStyle}
+                  onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
+                  onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
+                />
+              </div>
+              <div>
+                <label htmlFor="budget" style={labelStyle}>Budget range</label>
+                <input
+                  id="budget"
+                  type="text"
+                  value={form.budget}
+                  onChange={set('budget')}
+                  placeholder="e.g. flexible, or a range"
+                  style={inputStyle}
+                  onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
+                  onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
+                />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="message" style={labelStyle}>Tell me about the project</label>
+              <label htmlFor="message" style={labelStyle}>Additional notes</label>
               <textarea
                 id="message"
                 value={form.message}
                 onChange={set('message')}
                 rows={5}
-                placeholder="What the site needs to do, examples you like, anything helpful…"
+                placeholder="Reference images, colour preferences, intended location, anything helpful…"
                 style={{ ...inputStyle, resize: 'vertical', minHeight: '120px' }}
                 onFocus={(e) => (e.target.style.borderColor = '#6a5e54')}
                 onBlur={(e) => (e.target.style.borderColor = '#2e2920')}
@@ -288,8 +271,8 @@ export default function Contact() {
 
       <style>{`
         @media (max-width: 700px) {
-          .commissions-header { grid-template-columns: 1fr !important; }
-          .commissions-header > div:last-child { border-left: none !important; padding-left: 0 !important; border-top: 1px solid #2e2920; padding-top: 32px; }
+          .commission-header { grid-template-columns: 1fr !important; }
+          .commission-header > div:last-child { border-left: none !important; padding-left: 0 !important; border-top: 1px solid #2e2920; padding-top: 32px; }
         }
       `}</style>
     </div>
