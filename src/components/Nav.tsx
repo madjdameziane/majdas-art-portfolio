@@ -1,4 +1,7 @@
+import { ArrowUpRightIcon } from './icons'
+
 const LINKS: { label: string; id: string }[] = [
+  { label: 'Home', id: 'hero' },
   { label: 'Works', id: 'works' },
   { label: 'About', id: 'about' },
   { label: 'Contact', id: 'contact' },
@@ -10,34 +13,39 @@ function scrollToId(id: string) {
 
 export default function Nav() {
   return (
-    <header className="site-nav">
-      <button className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        <span className="nav-logo-line1">Majda's</span>
-        <span className="nav-logo-line2">Art Portfolio</span>
+    <header className="fixed top-4 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 lg:px-16">
+      <button
+        onClick={() => scrollToId('hero')}
+        className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+        aria-label="Back to top"
+      >
+        <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }} className="text-2xl text-white lowercase">
+          m
+        </span>
       </button>
 
-      <nav className="nav-links">
+      <nav className="liquid-glass hidden md:flex items-center rounded-full px-1.5 py-1.5 gap-1">
         {LINKS.map(({ label, id }) => (
-          <button key={id} className="nav-link" onClick={() => scrollToId(id)}>
+          <button
+            key={id}
+            onClick={() => scrollToId(id)}
+            style={{ fontFamily: "'Barlow', sans-serif" }}
+            className="px-3 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors rounded-full"
+          >
             {label}
           </button>
         ))}
         <button
-          className="nav-icon-btn"
-          aria-label="Go to contact"
           onClick={() => scrollToId('contact')}
+          style={{ fontFamily: "'Barlow', sans-serif" }}
+          className="flex items-center gap-1.5 bg-white text-black rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap ml-1"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M3 6.5C3 5.67 3.67 5 4.5 5h15c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-15C3.67 19 3 18.33 3 17.5v-11Z"
-              stroke="#141414"
-              strokeWidth="1.6"
-              strokeLinejoin="round"
-            />
-            <path d="M4 6.5 12 13l8-6.5" stroke="#141414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          Commission a Piece
+          <ArrowUpRightIcon className="h-4 w-4" />
         </button>
       </nav>
+
+      <div className="w-12 h-12 flex-shrink-0" aria-hidden="true" />
     </header>
   )
 }

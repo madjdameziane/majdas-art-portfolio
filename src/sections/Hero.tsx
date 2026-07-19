@@ -1,101 +1,142 @@
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { type Piece, pieceImageUrl } from '../lib/pieces'
+import CinematicBackground from '../components/CinematicBackground'
+import BlurText from '../components/BlurText'
+import { ArrowUpRightIcon, PaletteIcon, ClockIcon } from '../components/icons'
 
-export default function Hero() {
-  const wrapRef = useRef<HTMLDivElement | null>(null)
-  const [offset, setOffset] = useState({ x: 0, y: 0 })
+const COMMISSIONS_OPEN = true
 
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) return
+const fadeUp = {
+  initial: { filter: 'blur(10px)', opacity: 0, y: 20 },
+  animate: { filter: 'blur(0px)', opacity: 1, y: 0 },
+}
 
-    const handleMove = (e: MouseEvent) => {
-      const wrap = wrapRef.current
-      if (!wrap) return
-      const rect = wrap.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      const x = ((e.clientX - cx) / rect.width) * 14
-      const y = ((e.clientY - cy) / rect.height) * 14
-      setOffset({ x, y })
-    }
-    window.addEventListener('mousemove', handleMove)
-    return () => window.removeEventListener('mousemove', handleMove)
-  }, [])
+interface Props {
+  pieces: Piece[] | null
+}
+
+export default function Hero({ pieces }: Props) {
+  const images = (pieces ?? [])
+    .map((p) => pieceImageUrl(p.image_path))
+    .filter((url): url is string => Boolean(url))
+
+  const pieceCount = pieces?.length ?? null
 
   return (
-    <section
-      id="hero"
-      ref={wrapRef}
-      style={{
-        padding: '72px 28px 100px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-        position: 'relative',
-        minHeight: '92vh',
-        justifyContent: 'center',
-      }}
-    >
-      <div className="hero-circle" style={{ marginBottom: '40px' }}>
-        <svg
-          width="70%"
-          height="70%"
-          viewBox="0 0 200 200"
-          style={{ transform: `translate(${offset.x}px, ${offset.y}px)`, transition: 'transform 0.15s ease-out' }}
+    <section id="hero" className="relative h-screen min-h-[720px] bg-black overflow-hidden">
+      <CinematicBackground images={images} />
+
+      <div className="relative z-10 flex flex-col h-full">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 pt-24">
+          <motion.div
+            initial={fadeUp.initial}
+            animate={fadeUp.animate}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.4 }}
+            className="liquid-glass rounded-full flex items-center mb-6"
+          >
+            <span className="bg-white text-black rounded-full px-3 py-1 text-xs font-semibold m-1.5" style={{ fontFamily: "'Barlow', sans-serif" }}>
+              {COMMISSIONS_OPEN ? 'Open' : 'Waitlist'}
+            </span>
+            <span className="text-sm text-white/90 pr-4" style={{ fontFamily: "'Barlow', sans-serif" }}>
+              {COMMISSIONS_OPEN ? 'Now taking new commissions' : 'Commissions currently closed'}
+            </span>
+          </motion.div>
+
+          <BlurText
+            text="Every Canvas Holds a Moment"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] max-w-3xl leading-[0.95] text-white"
+            style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', letterSpacing: '-2px' }}
+          />
+
+          <motion.p
+            initial={fadeUp.initial}
+            animate={fadeUp.animate}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.8 }}
+            className="mt-5 text-sm md:text-base text-white/80 max-w-xl text-center font-light leading-relaxed"
+            style={{ fontFamily: "'Barlow', sans-serif" }}
+          >
+            Original paintings built in careful layers — quiet still lifes, landscapes, and
+            considered commissions, made one brushstroke at a time.
+          </motion.p>
+
+          <motion.div
+            initial={fadeUp.initial}
+            animate={fadeUp.animate}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 1.1 }}
+            className="flex items-center gap-6 mt-7"
+          >
+            <button
+              onClick={() => document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' })}
+              className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white flex items-center gap-2"
+              style={{ fontFamily: "'Barlow', sans-serif" }}
+            >
+              View the Gallery
+              <ArrowUpRightIcon className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+              className="flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-white transition-colors"
+              style={{ fontFamily: "'Barlow', sans-serif" }}
+            >
+              Meet the Artist
+              <ArrowUpRightIcon className="h-4 w-4" />
+            </button>
+          </motion.div>
+
+          <motion.div
+            initial={fadeUp.initial}
+            animate={fadeUp.animate}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 1.3 }}
+            className="flex items-stretch gap-4 mt-9"
+          >
+            <div className="liquid-glass p-5 w-[190px] sm:w-[220px] rounded-[1.25rem]">
+              <PaletteIcon className="text-white w-7 h-7" />
+              <p
+                className="text-3xl sm:text-4xl text-white leading-none mt-4"
+                style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', letterSpacing: '-1px' }}
+              >
+                {pieceCount === null ? '—' : `${pieceCount}+`}
+              </p>
+              <p className="text-xs text-white/70 font-light mt-2" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                Original Paintings
+              </p>
+            </div>
+            <div className="liquid-glass p-5 w-[190px] sm:w-[220px] rounded-[1.25rem]">
+              <ClockIcon className="text-white w-7 h-7" />
+              <p
+                className="text-3xl sm:text-4xl text-white leading-none mt-4"
+                style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', letterSpacing: '-1px' }}
+              >
+                {COMMISSIONS_OPEN ? 'Open' : 'Closed'}
+              </p>
+              <p className="text-xs text-white/70 font-light mt-2" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                Commission Status
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={fadeUp.initial}
+          animate={fadeUp.animate}
+          transition={{ duration: 0.7, ease: 'easeOut', delay: 1.4 }}
+          className="flex flex-col items-center gap-4 pb-8"
         >
-          <path
-            d="M60 70 C40 40, 90 20, 120 35 C150 50, 155 90, 130 110 C160 120, 155 160, 120 165 C85 170, 55 145, 55 115 C40 110, 35 85, 60 70 Z"
-            fill="#F4C95D"
-            opacity="0.9"
-          />
-          <circle cx="130" cy="75" r="26" fill="#E2725B" opacity="0.85" />
-          <path
-            d="M40 130 Q70 100 110 130 T170 125"
-            stroke="#2E8B57"
-            strokeWidth="6"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <circle cx="60" cy="150" r="8" fill="#2E8B57" />
-        </svg>
-      </div>
-
-      <p className="hand-label" style={{ marginBottom: '10px' }}>Original paintings</p>
-
-      <h1
-        style={{
-          fontFamily: "'Fredoka', sans-serif",
-          fontWeight: 600,
-          fontSize: 'clamp(2.6rem, 9vw, 6rem)',
-          color: '#141414',
-          margin: 0,
-          lineHeight: 1,
-          letterSpacing: '-0.01em',
-        }}
-      >
-        Majda Meziane
-      </h1>
-
-      <p className="body-copy" style={{ maxWidth: '460px', margin: '26px 0 36px', fontSize: '1.05rem' }}>
-        A little scrapbook of paintings — some finished, some still drying. Have a look around.
-      </p>
-
-      <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button className="btn-primary" onClick={() => document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' })}>
-          View the works
-        </button>
-        <button className="btn-outline" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-          Commission a piece
-        </button>
-      </div>
-
-      <div className="scroll-doodle">
-        <svg width="20" height="34" viewBox="0 0 20 34" fill="none">
-          <path d="M10 1 C10 12, 8 20, 10 32" stroke="#57534A" strokeWidth="2" strokeLinecap="round" />
-          <path d="M3 25 L10 32 L17 24" stroke="#57534A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-        </svg>
-        <span>scroll</span>
+          <span className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium text-white" style={{ fontFamily: "'Barlow', sans-serif" }}>
+            Working across mediums
+          </span>
+          <div className="flex gap-8 md:gap-14 flex-wrap justify-center px-4">
+            {['Acrylic', 'Oil', 'Gouache', 'Ink', 'Mixed Media'].map((medium) => (
+              <span
+                key={medium}
+                className="text-xl md:text-2xl text-white tracking-tight"
+                style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+              >
+                {medium}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   )

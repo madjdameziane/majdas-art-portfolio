@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react'
-import { listPieces, type Piece } from '../lib/pieces'
-import { supabaseConfigured } from '../lib/supabase'
+import { useState } from 'react'
+import { type Piece } from '../lib/pieces'
 import WorkCard from '../components/WorkCard'
 import PieceModal from '../components/PieceModal'
 import Reveal from '../components/Reveal'
 
-export default function FeaturedWorks() {
-  const [pieces, setPieces] = useState<Piece[] | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [selected, setSelected] = useState<Piece | null>(null)
+interface Props {
+  pieces: Piece[] | null
+  error: string | null
+}
 
-  useEffect(() => {
-    if (!supabaseConfigured) {
-      setPieces([])
-      return
-    }
-    listPieces()
-      .then(setPieces)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Failed to load pieces.'))
-  }, [])
+export default function FeaturedWorks({ pieces, error }: Props) {
+  const [selected, setSelected] = useState<Piece | null>(null)
 
   const handleCommission = () => {
     setSelected(null)
@@ -26,37 +18,25 @@ export default function FeaturedWorks() {
   }
 
   return (
-    <section id="works" style={{ padding: '80px 28px 100px', maxWidth: '1200px', margin: '0 auto' }}>
+    <section id="works" className="relative bg-black px-6 sm:px-8 md:px-16 lg:px-20 py-24 max-w-[1400px] mx-auto">
       <Reveal>
-        <p className="hand-label">A little of everything</p>
-        <h2 className="section-heading" style={{ marginBottom: '48px' }}>Featured Works</h2>
+        <p className="kicker mb-3">// Gallery</p>
+        <h2 className="section-heading mb-12">Featured Works</h2>
       </Reveal>
 
-      {error && (
-        <p className="body-copy" style={{ color: '#E2725B' }}>{error}</p>
-      )}
+      {error && <p className="body-copy" style={{ color: '#ff8a7a' }}>{error}</p>}
 
-      {!error && pieces === null && (
-        <p className="body-copy">Loading…</p>
-      )}
+      {!error && pieces === null && <p className="body-copy">Loading…</p>}
 
       {!error && pieces !== null && pieces.length === 0 && (
-        <p className="body-copy" style={{ fontStyle: 'italic' }}>
-          New work is on the way — check back soon.
-        </p>
+        <p className="body-copy italic">New work is on the way — check back soon.</p>
       )}
 
       {pieces && pieces.length > 0 && (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))',
-            gap: '40px 28px',
-          }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pieces.map((piece, i) => (
             <Reveal key={piece.id} delay={(i % 6) * 70}>
-              <WorkCard piece={piece} index={i} onSelect={setSelected} />
+              <WorkCard piece={piece} onSelect={setSelected} />
             </Reveal>
           ))}
         </div>

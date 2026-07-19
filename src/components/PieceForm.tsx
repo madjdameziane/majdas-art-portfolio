@@ -43,24 +43,24 @@ export default function PieceForm({ initialValues, initialImageUrl, submitLabel,
 
   const inputStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    border: '2px solid #EAE3D4',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.15)',
     borderRadius: '10px',
     padding: '10px 12px',
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Barlow', sans-serif",
     fontWeight: 400,
     fontSize: '0.85rem',
-    color: '#141414',
+    color: '#ffffff',
     outline: 'none',
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Barlow', sans-serif",
     fontWeight: 600,
     fontSize: '0.65rem',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
-    color: '#86807A',
+    color: 'rgba(255,255,255,0.5)',
     display: 'block',
     marginBottom: '5px',
   }
@@ -106,7 +106,7 @@ export default function PieceForm({ initialValues, initialImageUrl, submitLabel,
           onChange={set('sold')}
           style={{ width: '14px', height: '14px' }}
         />
-        <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: '0.82rem', color: '#57534A' }}>
+        <span style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 500, fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)' }}>
           Sold
         </span>
       </label>
@@ -130,12 +130,12 @@ export default function PieceForm({ initialValues, initialImageUrl, submitLabel,
           type="file"
           accept="image/*"
           onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-          style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#57534A' }}
+          style={{ fontFamily: "'Barlow', sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}
         />
       </div>
 
       {error && (
-        <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', color: '#E2725B', margin: 0 }}>{error}</p>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: '0.8rem', color: '#ff8a7a', margin: 0 }}>{error}</p>
       )}
 
       <div style={{ display: 'flex', gap: '10px' }}>

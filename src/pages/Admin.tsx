@@ -136,33 +136,33 @@ export default function Admin({ onExit }: Props) {
   }
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Barlow', sans-serif",
     fontWeight: 600,
     fontSize: '0.7rem',
     letterSpacing: '0.05em',
     textTransform: 'uppercase',
-    color: '#86807A',
+    color: 'rgba(255,255,255,0.5)',
     display: 'block',
     marginBottom: '6px',
   }
 
   const inputStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: '#FFFFFF',
-    border: '2px solid #EAE3D4',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.15)',
     borderRadius: '12px',
     padding: '12px 14px',
-    fontFamily: "'Inter', sans-serif",
+    fontFamily: "'Barlow', sans-serif",
     fontWeight: 400,
     fontSize: '0.88rem',
-    color: '#141414',
+    color: '#ffffff',
     outline: 'none',
   }
 
   if (!supabaseConfigured) {
     return (
       <div style={{ padding: '80px 28px', maxWidth: '480px' }}>
-        <p className="hand-label">Admin</p>
+        <p className="kicker">Admin</p>
         <p className="body-copy">
           Supabase isn't connected yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY as
           environment variables, then reload.
@@ -182,7 +182,7 @@ export default function Admin({ onExit }: Props) {
   if (!loggedIn) {
     return (
       <div style={{ padding: '80px 28px', maxWidth: '380px' }}>
-        <p className="hand-label">Admin</p>
+        <p className="kicker">Admin</p>
         <h1 className="section-heading" style={{ fontSize: '2.2rem', margin: '4px 0 28px' }}>
           Log in
         </h1>
@@ -195,7 +195,7 @@ export default function Admin({ onExit }: Props) {
             <label style={labelStyle}>Password</label>
             <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} style={inputStyle} />
           </div>
-          {loginError && <p style={{ color: '#E2725B', fontSize: '0.8rem', margin: 0 }}>{loginError}</p>}
+          {loginError && <p style={{ color: '#ff8a7a', fontSize: '0.8rem', margin: 0 }}>{loginError}</p>}
           <button type="submit" className="btn-primary" disabled={loginBusy}>
             {loginBusy ? 'Logging in…' : 'Log in'}
           </button>
@@ -208,12 +208,12 @@ export default function Admin({ onExit }: Props) {
             border: 'none',
             cursor: 'pointer',
             padding: 0,
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Barlow', sans-serif",
             fontWeight: 600,
             fontSize: '0.75rem',
             letterSpacing: '0.05em',
             textTransform: 'uppercase',
-            color: '#86807A',
+            color: 'rgba(255,255,255,0.5)',
           }}
         >
           ← Back to site
@@ -226,7 +226,7 @@ export default function Admin({ onExit }: Props) {
     <div style={{ padding: '40px 28px 80px', maxWidth: '860px', margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '40px', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <p className="hand-label" style={{ marginBottom: '4px' }}>Admin</p>
+          <p className="kicker" style={{ marginBottom: '4px' }}>Admin</p>
           <h1 className="section-heading" style={{ fontSize: '2.2rem' }}>Manage pieces</h1>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -237,7 +237,7 @@ export default function Admin({ onExit }: Props) {
 
       {/* add / edit form */}
       <div className="surface-card" style={{ marginBottom: '48px' }}>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.85rem', color: '#141414', margin: '0 0 20px' }}>
+        <p style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, fontSize: '0.85rem', color: '#ffffff', margin: '0 0 20px' }}>
           {editing ? `Editing "${editing.title}"` : 'Add a new piece'}
         </p>
         <PieceForm
@@ -253,8 +253,8 @@ export default function Admin({ onExit }: Props) {
       </div>
 
       {/* existing pieces */}
-      <p className="hand-label">Existing pieces ({pieces.length})</p>
-      {listError && <p style={{ color: '#E2725B', fontSize: '0.8rem' }}>{listError}</p>}
+      <p className="kicker">Existing pieces ({pieces.length})</p>
+      {listError && <p style={{ color: '#ff8a7a', fontSize: '0.8rem' }}>{listError}</p>}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {pieces.map((piece) => {
           const imageUrl = pieceImageUrl(piece.image_path)
@@ -267,18 +267,18 @@ export default function Admin({ onExit }: Props) {
               {imageUrl ? (
                 <img src={imageUrl} alt={piece.title} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
               ) : (
-                <div style={{ width: '48px', height: '48px', background: '#F5F1E7', borderRadius: '8px', flexShrink: 0 }} />
+                <div style={{ width: '48px', height: '48px', background: 'rgba(255,255,255,0.08)', borderRadius: '8px', flexShrink: 0 }} />
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: '#141414', margin: 0 }}>{piece.title}</p>
-                <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', color: '#86807A', margin: '2px 0 0' }}>
+                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: '0.85rem', color: '#ffffff', margin: 0 }}>{piece.title}</p>
+                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', margin: '2px 0 0' }}>
                   {piece.medium} · {piece.sold ? 'Sold' : piece.price ? `$${piece.price.toLocaleString()}` : 'NFS'}
                 </p>
               </div>
               <button className="btn-outline" style={{ padding: '8px 14px' }} onClick={() => setEditing(piece)}>
                 Edit
               </button>
-              <button className="btn-outline" style={{ padding: '8px 14px', color: '#E2725B', borderColor: '#EAE3D4' }} onClick={() => handleDelete(piece)}>
+              <button className="btn-outline" style={{ padding: '8px 14px', color: '#ff8a7a', borderColor: 'rgba(255,255,255,0.15)' }} onClick={() => handleDelete(piece)}>
                 Delete
               </button>
             </div>

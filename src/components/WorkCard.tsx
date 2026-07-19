@@ -1,37 +1,44 @@
 import { type Piece, pieceImageUrl } from '../lib/pieces'
 
-const TAPE_COLORS = ['rgba(244, 201, 93, 0.85)', 'rgba(226, 114, 91, 0.75)', 'rgba(46, 139, 87, 0.55)']
-
 interface Props {
   piece: Piece
-  index: number
   onSelect: (piece: Piece) => void
   style?: React.CSSProperties
 }
 
-export default function WorkCard({ piece, index, onSelect, style }: Props) {
+export default function WorkCard({ piece, onSelect, style }: Props) {
   const imageUrl = pieceImageUrl(piece.image_path)
-  const rotation = [-2, 1.5, -1, 2, -1.5, 1][index % 6]
-  const tapeColor = TAPE_COLORS[index % TAPE_COLORS.length]
 
   return (
     <button
-      className="work-card"
       onClick={() => onSelect(piece)}
-      style={{ transform: `rotate(${rotation}deg)`, ...style }}
+      className="liquid-glass rounded-[1.25rem] p-2.5 text-left w-full transition-transform duration-300 hover:-translate-y-1"
+      style={style}
       aria-label={`View ${piece.title}`}
     >
-      <div className="work-card-image-wrap">
-        <span className="work-card-tape" style={{ background: tapeColor }} />
+      <div className="rounded-[0.9rem] overflow-hidden bg-white/5" style={{ aspectRatio: '4 / 5' }}>
         {imageUrl ? (
-          <img src={imageUrl} alt={piece.title} loading="lazy" />
+          <img src={imageUrl} alt={piece.title} loading="lazy" className="w-full h-full object-cover" />
         ) : (
-          <div className="work-card-placeholder">No image yet</div>
+          <div
+            className="w-full h-full flex items-center justify-center text-white/40 text-xs tracking-wide uppercase"
+            style={{ fontFamily: "'Barlow', sans-serif" }}
+          >
+            No image yet
+          </div>
         )}
       </div>
-      <div className="work-card-meta">
-        <p className="work-card-title">{piece.title}</p>
-        <p className="work-card-sub">
+      <div className="pt-3 pb-1 px-1">
+        <p
+          className="text-white text-xl"
+          style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+        >
+          {piece.title}
+        </p>
+        <p
+          className="text-white/60 text-xs mt-1"
+          style={{ fontFamily: "'Barlow', sans-serif" }}
+        >
           {piece.sold ? 'Sold' : piece.price ? `$${piece.price.toLocaleString()}` : 'Not for sale'}
         </p>
       </div>

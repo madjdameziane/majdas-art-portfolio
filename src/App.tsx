@@ -21,7 +21,7 @@ export default function App() {
   }
 
   return (
-    <div style={{ backgroundColor: '#FFFDF8', minHeight: '100vh', color: '#141414' }}>
+    <div style={{ backgroundColor: '#000000', minHeight: '100vh', color: '#ffffff' }}>
       {page.name !== 'admin' && <Nav />}
       <main>
         {page.name === 'home' && <Home />}

@@ -14,30 +14,9 @@ interface FormState {
 
 const INITIAL: FormState = { name: '', email: '', subject: '', size: '', budget: '', message: '' }
 
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  backgroundColor: '#FFFFFF',
-  border: '2px solid #EAE3D4',
-  borderRadius: '12px',
-  padding: '13px 16px',
-  fontFamily: "'Inter', sans-serif",
-  fontWeight: 400,
-  fontSize: '0.9rem',
-  color: '#141414',
-  outline: 'none',
-  transition: 'border-color 0.2s',
-}
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: "'Inter', sans-serif",
-  fontWeight: 600,
-  fontSize: '0.7rem',
-  letterSpacing: '0.05em',
-  textTransform: 'uppercase',
-  color: '#86807A',
-  display: 'block',
-  marginBottom: '6px',
-}
+const inputClass =
+  'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-white/40 transition-colors'
+const labelClass = 'block text-xs uppercase tracking-wide text-white/50 mb-1.5'
 
 export default function ContactFooter() {
   const [form, setForm] = useState<FormState>(INITIAL)
@@ -53,73 +32,68 @@ export default function ContactFooter() {
   }
 
   return (
-    <section id="contact" style={{ padding: '60px 28px 0', maxWidth: '720px', margin: '0 auto' }}>
+    <section id="contact" className="relative bg-black px-6 sm:px-8 py-24 max-w-[820px] mx-auto" style={{ fontFamily: "'Barlow', sans-serif" }}>
       <Reveal>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+        <div className="flex items-center gap-2.5 mb-2">
           <span
-            style={{
-              width: '9px',
-              height: '9px',
-              borderRadius: '50%',
-              backgroundColor: COMMISSIONS_OPEN ? '#2E8B57' : '#E2725B',
-              display: 'inline-block',
-            }}
+            className="w-2.5 h-2.5 rounded-full inline-block"
+            style={{ backgroundColor: COMMISSIONS_OPEN ? '#4ade80' : '#f87171' }}
           />
-          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '0.72rem', letterSpacing: '0.05em', textTransform: 'uppercase', color: COMMISSIONS_OPEN ? '#2E8B57' : '#E2725B' }}>
+          <span className="text-xs uppercase tracking-wide text-white/70">
             {COMMISSIONS_OPEN ? 'Commissions open' : 'Commissions closed'}
           </span>
         </div>
-        <p className="hand-label">Let's make something</p>
-        <h2 className="section-heading" style={{ marginBottom: '36px' }}>Commission a piece</h2>
+        <p className="kicker mb-3">// Contact</p>
+        <h2 className="section-heading mb-10">Commission a piece</h2>
       </Reveal>
 
       <Reveal delay={80}>
         {sent ? (
-          <p className="body-copy" style={{ fontSize: '1rem' }}>
+          <p className="body-copy text-base">
             Request received — I'll be in touch within a few days to talk through your piece.
             Thank you for reaching out!
           </p>
         ) : (
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="responsive-2col-tight">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div className="responsive-2col-tight grid grid-cols-2 gap-4">
               <div>
-                <label style={labelStyle}>Name</label>
-                <input required style={inputStyle} value={form.name} onChange={set('name')} placeholder="Your name" />
+                <label className={labelClass}>Name</label>
+                <input required className={inputClass} value={form.name} onChange={set('name')} placeholder="Your name" />
               </div>
               <div>
-                <label style={labelStyle}>Email</label>
-                <input required type="email" style={inputStyle} value={form.email} onChange={set('email')} placeholder="you@example.com" />
-              </div>
-            </div>
-
-            <div>
-              <label style={labelStyle}>What do you have in mind?</label>
-              <input required style={inputStyle} value={form.subject} onChange={set('subject')} placeholder="e.g. acrylic on canvas, custom size" />
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="responsive-2col-tight">
-              <div>
-                <label style={labelStyle}>Approximate size</label>
-                <input style={inputStyle} value={form.size} onChange={set('size')} placeholder="e.g. 40 x 60 cm" />
-              </div>
-              <div>
-                <label style={labelStyle}>Budget</label>
-                <input style={inputStyle} value={form.budget} onChange={set('budget')} placeholder="e.g. flexible" />
+                <label className={labelClass}>Email</label>
+                <input required type="email" className={inputClass} value={form.email} onChange={set('email')} placeholder="you@example.com" />
               </div>
             </div>
 
             <div>
-              <label style={labelStyle}>Anything else?</label>
+              <label className={labelClass}>What do you have in mind?</label>
+              <input required className={inputClass} value={form.subject} onChange={set('subject')} placeholder="e.g. acrylic on canvas, custom size" />
+            </div>
+
+            <div className="responsive-2col-tight grid grid-cols-2 gap-4">
+              <div>
+                <label className={labelClass}>Approximate size</label>
+                <input className={inputClass} value={form.size} onChange={set('size')} placeholder="e.g. 40 x 60 cm" />
+              </div>
+              <div>
+                <label className={labelClass}>Budget</label>
+                <input className={inputClass} value={form.budget} onChange={set('budget')} placeholder="e.g. flexible" />
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>Anything else?</label>
               <textarea
                 rows={4}
-                style={{ ...inputStyle, resize: 'vertical', minHeight: '100px' }}
+                className={`${inputClass} resize-y min-h-[100px]`}
                 value={form.message}
                 onChange={set('message')}
                 placeholder="Reference images, colour preferences, anything helpful…"
               />
             </div>
 
-            <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start' }}>
+            <button type="submit" className="btn-primary self-start">
               Send request
             </button>
           </form>
@@ -127,41 +101,39 @@ export default function ContactFooter() {
       </Reveal>
 
       {/* footer */}
-      <footer
-        style={{
-          marginTop: '90px',
-          padding: '32px 0 48px',
-          borderTop: '1px solid #EAE3D4',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-        }}
-      >
-        <span style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: '1.3rem', color: '#2E8B57' }}>
+      <footer className="mt-20 pt-8 pb-6 border-t border-white/10 flex items-center justify-between flex-wrap gap-4">
+        <span
+          className="text-xl text-white"
+          style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+        >
           Majda's Art Portfolio
         </span>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <a className="social-link" href="#" aria-label="Instagram (add your real link)">
+        <div className="flex gap-2.5">
+          <a
+            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
+            href="#"
+            aria-label="Instagram (add your real link)"
+          >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="18" height="18" rx="5" stroke="#141414" strokeWidth="1.6" />
-              <circle cx="12" cy="12" r="4" stroke="#141414" strokeWidth="1.6" />
-              <circle cx="17.2" cy="6.8" r="1" fill="#141414" />
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="#ffffff" strokeWidth="1.6" />
+              <circle cx="12" cy="12" r="4" stroke="#ffffff" strokeWidth="1.6" />
+              <circle cx="17.2" cy="6.8" r="1" fill="#ffffff" />
             </svg>
           </a>
-          <a className="social-link" href="mailto:hello@example.com" aria-label="Email (add your real address)">
+          <a
+            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
+            href="mailto:hello@example.com"
+            aria-label="Email (add your real address)"
+          >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-              <path d="M3 6.5C3 5.67 3.67 5 4.5 5h15c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-15C3.67 19 3 18.33 3 17.5v-11Z" stroke="#141414" strokeWidth="1.6" strokeLinejoin="round" />
-              <path d="M4 6.5 12 13l8-6.5" stroke="#141414" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 6.5C3 5.67 3.67 5 4.5 5h15c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-15C3.67 19 3 18.33 3 17.5v-11Z" stroke="#ffffff" strokeWidth="1.6" strokeLinejoin="round" />
+              <path d="M4 6.5 12 13l8-6.5" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
         </div>
 
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.72rem', color: '#B7AF9F' }}>
-          © {new Date().getFullYear()}
-        </span>
+        <span className="text-xs text-white/40">© {new Date().getFullYear()}</span>
       </footer>
     </section>
   )

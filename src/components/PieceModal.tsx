@@ -19,58 +19,63 @@ export default function PieceModal({ piece, onClose, onCommission }: Props) {
   const imageUrl = pieceImageUrl(piece.image_path)
 
   return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6 z-[100]"
+      onClick={onClose}
+      role="presentation"
+    >
       <div
-        className="modal-panel"
+        className="liquid-glass-strong rounded-[1.5rem] max-w-4xl w-full max-h-[88vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 relative"
         role="dialog"
         aria-modal="true"
         aria-label={piece.title}
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="modal-close" onClick={onClose} aria-label="Close">
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="liquid-glass absolute top-3.5 right-3.5 w-9 h-9 rounded-full flex items-center justify-center z-10"
+        >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M2 2 L14 14 M14 2 L2 14" stroke="#141414" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M2 2 L14 14 M14 2 L2 14" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
           </svg>
         </button>
 
-        <div style={{ background: '#F5F1E7', minHeight: '260px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="bg-white/5 min-h-[260px] flex items-center justify-center">
           {imageUrl ? (
-            <img src={imageUrl} alt={piece.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <img src={imageUrl} alt={piece.title} className="w-full h-full object-cover block" />
           ) : (
-            <p className="body-copy" style={{ fontSize: '0.85rem' }}>No image yet</p>
+            <p className="body-copy text-sm">No image yet</p>
           )}
         </div>
 
-        <div style={{ padding: '36px 32px', display: 'flex', flexDirection: 'column' }}>
+        <div className="p-8 sm:p-9 flex flex-col">
           <h2
-            style={{
-              fontFamily: "'Caveat', cursive",
-              fontWeight: 700,
-              fontSize: '2.2rem',
-              color: '#141414',
-              margin: '0 0 4px',
-              lineHeight: 1.1,
-            }}
+            className="text-white text-4xl leading-tight mb-1"
+            style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
           >
             {piece.title}
           </h2>
           {piece.year && (
-            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: '0.72rem', letterSpacing: '0.05em', textTransform: 'uppercase', color: '#2E8B57', margin: '0 0 24px' }}>
+            <p className="text-sm text-white/60 mb-6" style={{ fontFamily: "'Barlow', sans-serif" }}>
               {piece.year}
             </p>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px', borderTop: '1px solid #EAE3D4', paddingTop: '18px' }}>
+          <div className="flex flex-col gap-2.5 mb-6 border-t border-white/10 pt-4">
             {[
               { label: 'Medium', value: piece.medium },
               { label: 'Dimensions', value: piece.dimensions ?? '—' },
               { label: 'Price', value: piece.sold ? 'Sold' : piece.price ? `$${piece.price.toLocaleString()}` : 'Not for sale' },
             ].map(({ label, value }) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-                <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: '0.7rem', letterSpacing: '0.05em', textTransform: 'uppercase', color: '#86807A' }}>
+              <div key={label} className="flex justify-between gap-4">
+                <span
+                  className="text-xs uppercase text-white/50"
+                  style={{ fontFamily: "'Barlow', sans-serif", letterSpacing: '0.05em' }}
+                >
                   {label}
                 </span>
-                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.85rem', color: '#141414', textAlign: 'right' }}>
+                <span className="text-sm text-white text-right" style={{ fontFamily: "'Barlow', sans-serif" }}>
                   {value}
                 </span>
               </div>
@@ -78,30 +83,16 @@ export default function PieceModal({ piece, onClose, onCommission }: Props) {
           </div>
 
           {piece.description && (
-            <p className="body-copy" style={{ fontSize: '0.9rem', marginBottom: '28px' }}>
-              {piece.description}
-            </p>
+            <p className="body-copy text-sm mb-7">{piece.description}</p>
           )}
 
-          <div style={{ marginTop: 'auto' }}>
+          <div className="mt-auto">
             {piece.sold ? (
-              <span
-                style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  padding: '13px 24px',
-                  border: '2px solid #EAE3D4',
-                  borderRadius: '999px',
-                  fontFamily: "'Inter', sans-serif",
-                  fontWeight: 600,
-                  fontSize: '0.82rem',
-                  color: '#86807A',
-                }}
-              >
+              <span className="block text-center py-3.5 rounded-full border border-white/15 text-sm font-medium text-white/50" style={{ fontFamily: "'Barlow', sans-serif" }}>
                 This piece has sold
               </span>
             ) : (
-              <button className="btn-primary" style={{ width: '100%' }} onClick={onCommission}>
+              <button className="btn-primary w-full" onClick={onCommission}>
                 {piece.price ? `Inquire — $${piece.price.toLocaleString()}` : 'Ask about this piece'}
               </button>
             )}

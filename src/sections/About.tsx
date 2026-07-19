@@ -2,35 +2,23 @@ import Reveal from '../components/Reveal'
 
 export default function About() {
   return (
-    <section id="about" style={{ padding: '60px 28px 100px', maxWidth: '1100px', margin: '0 auto' }}>
-      <div
-        className="responsive-2col"
-        style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '56px', alignItems: 'center' }}
-      >
+    <section id="about" className="relative bg-black px-6 sm:px-8 md:px-16 lg:px-20 py-24 max-w-[1200px] mx-auto">
+      <div className="responsive-2col grid grid-cols-[220px_1fr] gap-14 items-center">
         <Reveal>
-          <div
-            style={{
-              width: '220px',
-              height: '220px',
-              borderRadius: '50%',
-              background: '#FBE8E2',
-              margin: '0 auto',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transform: 'rotate(-3deg)',
-            }}
-          >
-            <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: '3rem', color: '#141414' }}>
+          <div className="liquid-glass w-[200px] h-[200px] rounded-full flex items-center justify-center mx-auto">
+            <span
+              className="text-white text-5xl"
+              style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+            >
               MM
             </span>
           </div>
         </Reveal>
 
         <Reveal delay={100}>
-          <p className="hand-label">About</p>
-          <h2 className="section-heading" style={{ marginBottom: '20px' }}>Hi, I'm Majda.</h2>
-          <p className="body-copy" style={{ maxWidth: '520px', fontSize: '1.02rem' }}>
+          <p className="kicker mb-3">// About</p>
+          <h2 className="section-heading mb-5">Hi, I'm Majda.</h2>
+          <p className="body-copy max-w-xl text-base">
             [Placeholder — replace with your real artist statement: how you started painting,
             what draws you to your subjects, and how you like to work. Send me the text whenever
             you're ready and I'll drop it in here.]
