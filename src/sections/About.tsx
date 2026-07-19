@@ -2,16 +2,22 @@ import Reveal from '../components/Reveal'
 
 export default function About() {
   return (
-    <section id="about" className="relative bg-black px-6 sm:px-8 md:px-16 lg:px-20 py-24 max-w-[1200px] mx-auto">
+    <section id="about" className="relative bg-black px-6 sm:px-8 md:px-16 lg:px-20 py-24 max-w-[1200px] mx-auto overflow-hidden">
       <div className="responsive-2col grid grid-cols-[220px_1fr] gap-14 items-center">
         <Reveal>
-          <div className="liquid-glass w-[200px] h-[200px] rounded-full flex items-center justify-center mx-auto">
-            <span
-              className="text-white text-5xl"
-              style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
-            >
-              MM
-            </span>
+          <div className="relative w-[200px] h-[200px] mx-auto">
+            <div
+              className="absolute -inset-3 rounded-full opacity-60 blur-2xl"
+              style={{ background: 'conic-gradient(from 0deg, #4ecdc4, #a78bfa, #ff6b6b, #ffb84d, #4ecdc4)' }}
+            />
+            <div className="liquid-glass relative w-full h-full rounded-full flex items-center justify-center">
+              <span
+                className="text-white text-5xl"
+                style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic' }}
+              >
+                MM
+              </span>
+            </div>
           </div>
         </Reveal>
 

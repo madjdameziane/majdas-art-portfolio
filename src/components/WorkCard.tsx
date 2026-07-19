@@ -1,19 +1,49 @@
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { type Piece, pieceImageUrl } from '../lib/pieces'
+
+const ACCENTS = ['#4ecdc4', '#ff6b6b', '#a78bfa', '#ffb84d', '#8ce99a']
 
 interface Props {
   piece: Piece
+  index: number
   onSelect: (piece: Piece) => void
   style?: React.CSSProperties
 }
 
-export default function WorkCard({ piece, onSelect, style }: Props) {
+export default function WorkCard({ piece, index, onSelect, style }: Props) {
   const imageUrl = pieceImageUrl(piece.image_path)
+  const accent = ACCENTS[index % ACCENTS.length]
+
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const springRotateX = useSpring(rotateX, { stiffness: 220, damping: 22 })
+  const springRotateY = useSpring(rotateY, { stiffness: 220, damping: 22 })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    rotateY.set(px * 12)
+    rotateX.set(-py * 12)
+  }
+
+  const handleMouseLeave = () => {
+    rotateX.set(0)
+    rotateY.set(0)
+  }
 
   return (
-    <button
+    <motion.button
       onClick={() => onSelect(piece)}
-      className="liquid-glass rounded-[1.25rem] p-2.5 text-left w-full transition-transform duration-300 hover:-translate-y-1"
-      style={style}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="liquid-glass tilt-card rounded-[1.25rem] p-2.5 text-left w-full transition-shadow duration-300"
+      style={{
+        rotateX: springRotateX,
+        rotateY: springRotateY,
+        ...style,
+      }}
+      whileHover={{ boxShadow: `0 20px 40px -16px ${accent}55` }}
       aria-label={`View ${piece.title}`}
     >
       <div className="rounded-[0.9rem] overflow-hidden bg-white/5" style={{ aspectRatio: '4 / 5' }}>
@@ -35,13 +65,11 @@ export default function WorkCard({ piece, onSelect, style }: Props) {
         >
           {piece.title}
         </p>
-        <p
-          className="text-white/60 text-xs mt-1"
-          style={{ fontFamily: "'Barlow', sans-serif" }}
-        >
+        <p className="flex items-center gap-1.5 text-white/60 text-xs mt-1" style={{ fontFamily: "'Barlow', sans-serif" }}>
+          <span className="w-1.5 h-1.5 rounded-full inline-block flex-shrink-0" style={{ background: accent }} />
           {piece.sold ? 'Sold' : piece.price ? `$${piece.price.toLocaleString()}` : 'Not for sale'}
         </p>
       </div>
-    </button>
+    </motion.button>
   )
 }

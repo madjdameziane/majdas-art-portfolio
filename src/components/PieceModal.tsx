@@ -34,7 +34,13 @@ export default function PieceModal({ piece, onClose, onCommission }: Props) {
         <button
           onClick={onClose}
           aria-label="Close"
-          className="liquid-glass absolute top-3.5 right-3.5 w-9 h-9 rounded-full flex items-center justify-center z-10"
+          className="liquid-glass absolute top-3.5 right-3.5 w-9 h-9 rounded-full flex items-center justify-center z-10 transition-shadow duration-300"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = '0 6px 18px -4px rgba(255,107,107,0.6)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = ''
+          }}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M2 2 L14 14 M14 2 L2 14" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" />
@@ -92,7 +98,16 @@ export default function PieceModal({ piece, onClose, onCommission }: Props) {
                 This piece has sold
               </span>
             ) : (
-              <button className="btn-primary w-full" onClick={onCommission}>
+              <button
+                className="btn-primary w-full"
+                onClick={onCommission}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 10px 30px -8px rgba(140,233,154,0.6)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = ''
+                }}
+              >
                 {piece.price ? `Inquire — $${piece.price.toLocaleString()}` : 'Ask about this piece'}
               </button>
             )}

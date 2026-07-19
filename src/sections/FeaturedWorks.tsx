@@ -36,7 +36,7 @@ export default function FeaturedWorks({ pieces, error }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pieces.map((piece, i) => (
             <Reveal key={piece.id} delay={(i % 6) * 70}>
-              <WorkCard piece={piece} onSelect={setSelected} />
+              <WorkCard piece={piece} index={i} onSelect={setSelected} />
             </Reveal>
           ))}
         </div>

@@ -15,7 +15,7 @@ interface FormState {
 const INITIAL: FormState = { name: '', email: '', subject: '', size: '', budget: '', message: '' }
 
 const inputClass =
-  'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-white/40 transition-colors'
+  'w-full bg-white/5 border border-white/15 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 outline-none focus:border-[#a78bfa] focus:shadow-[0_0_0_3px_rgba(167,139,250,0.15)] transition-all'
 const labelClass = 'block text-xs uppercase tracking-wide text-white/50 mb-1.5'
 
 export default function ContactFooter() {
@@ -37,7 +37,7 @@ export default function ContactFooter() {
         <div className="flex items-center gap-2.5 mb-2">
           <span
             className="w-2.5 h-2.5 rounded-full inline-block"
-            style={{ backgroundColor: COMMISSIONS_OPEN ? '#4ade80' : '#f87171' }}
+            style={{ backgroundColor: COMMISSIONS_OPEN ? '#8ce99a' : '#ff6b6b' }}
           />
           <span className="text-xs uppercase tracking-wide text-white/70">
             {COMMISSIONS_OPEN ? 'Commissions open' : 'Commissions closed'}
@@ -93,7 +93,16 @@ export default function ContactFooter() {
               />
             </div>
 
-            <button type="submit" className="btn-primary self-start">
+            <button
+              type="submit"
+              className="btn-primary self-start"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 10px 30px -8px rgba(167,139,250,0.6)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = ''
+              }}
+            >
               Send request
             </button>
           </form>
@@ -111,9 +120,15 @@ export default function ContactFooter() {
 
         <div className="flex gap-2.5">
           <a
-            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
+            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center transition-shadow duration-300"
             href="#"
             aria-label="Instagram (add your real link)"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(255,107,107,0.6)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = ''
+            }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
               <rect x="3" y="3" width="18" height="18" rx="5" stroke="#ffffff" strokeWidth="1.6" />
@@ -122,9 +137,15 @@ export default function ContactFooter() {
             </svg>
           </a>
           <a
-            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center"
+            className="liquid-glass w-10 h-10 rounded-full flex items-center justify-center transition-shadow duration-300"
             href="mailto:hello@example.com"
             aria-label="Email (add your real address)"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(78,205,196,0.6)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = ''
+            }}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
               <path d="M3 6.5C3 5.67 3.67 5 4.5 5h15c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-15C3.67 19 3 18.33 3 17.5v-11Z" stroke="#ffffff" strokeWidth="1.6" strokeLinejoin="round" />
