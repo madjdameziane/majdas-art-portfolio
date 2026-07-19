@@ -1,19 +1,9 @@
 import { useState } from 'react'
 import Nav from './components/Nav'
 import Home from './pages/Home'
-import Gallery from './pages/Gallery'
-import PieceDetail from './pages/PieceDetail'
-import About from './pages/About'
-import Commission from './pages/Commission'
 import Admin from './pages/Admin'
 
-export type Page =
-  | { name: 'home' }
-  | { name: 'gallery' }
-  | { name: 'piece'; id: string }
-  | { name: 'about' }
-  | { name: 'commission' }
-  | { name: 'admin' }
+export type Page = { name: 'home' } | { name: 'admin' }
 
 function initialPage(): Page {
   if (typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) {
@@ -25,22 +15,17 @@ function initialPage(): Page {
 export default function App() {
   const [page, setPage] = useState<Page>(initialPage)
 
-  const navigate = (p: Page) => {
-    setPage(p)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    window.history.replaceState(null, '', p.name === 'admin' ? '/admin' : '/')
+  const goHome = () => {
+    setPage({ name: 'home' })
+    window.history.replaceState(null, '', '/')
   }
 
   return (
-    <div style={{ backgroundColor: '#141210', minHeight: '100vh', color: '#e4dbd0' }}>
-      {page.name !== 'admin' && <Nav page={page} navigate={navigate} />}
+    <div style={{ backgroundColor: '#FFFDF8', minHeight: '100vh', color: '#141414' }}>
+      {page.name !== 'admin' && <Nav />}
       <main>
-        {page.name === 'home' && <Home navigate={navigate} />}
-        {page.name === 'gallery' && <Gallery navigate={navigate} />}
-        {page.name === 'piece' && <PieceDetail id={page.id} navigate={navigate} />}
-        {page.name === 'about' && <About navigate={navigate} />}
-        {page.name === 'commission' && <Commission />}
-        {page.name === 'admin' && <Admin navigate={navigate} />}
+        {page.name === 'home' && <Home />}
+        {page.name === 'admin' && <Admin onExit={goHome} />}
       </main>
     </div>
   )
